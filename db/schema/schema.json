@@ -1,0 +1,310 @@
+{
+  "collections": [
+    {
+      "name": "users",
+      "type": "auth",
+      "schema": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "avatar",
+          "type": "file"
+        },
+        {
+          "name": "department",
+          "type": "relation",
+          "options": {
+            "collectionId": "departments",
+            "cascadeDelete": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "departments",
+      "schema": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "api_endpoint",
+          "type": "text"
+        },
+        {
+          "name": "api_key",
+          "type": "text",
+          "options": {
+            "hidden": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "schema": [
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "owner",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "department",
+          "type": "relation",
+          "options": {
+            "collectionId": "departments",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["active", "completed", "archived"]
+          }
+        },
+        {
+          "name": "start_date",
+          "type": "date"
+        },
+        {
+          "name": "end_date",
+          "type": "date"
+        },
+        {
+          "name": "metadata",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "reports",
+      "schema": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "project",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "projects",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "author",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "department",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "departments",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["draft", "submitted", "approved", "rejected"]
+          }
+        },
+        {
+          "name": "submitted_at",
+          "type": "date"
+        },
+        {
+          "name": "metadata",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "evaluations",
+      "schema": [
+        {
+          "name": "report",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "reports",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "security_score",
+          "type": "number",
+          "required": true,
+          "options": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "name": "performance_score",
+          "type": "number",
+          "required": true,
+          "options": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "name": "memory_score",
+          "type": "number",
+          "required": true,
+          "options": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "name": "testing_score",
+          "type": "number",
+          "required": true,
+          "options": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "name": "error_score",
+          "type": "number",
+          "required": true,
+          "options": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "name": "load_score",
+          "type": "number",
+          "required": true,
+          "options": {
+            "min": 0,
+            "max": 10
+          }
+        },
+        {
+          "name": "security_details",
+          "type": "text"
+        },
+        {
+          "name": "performance_details",
+          "type": "text"
+        },
+        {
+          "name": "memory_details",
+          "type": "text"
+        },
+        {
+          "name": "testing_details",
+          "type": "text"
+        },
+        {
+          "name": "error_details",
+          "type": "text"
+        },
+        {
+          "name": "load_details",
+          "type": "text"
+        },
+        {
+          "name": "evaluator",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "submissions",
+      "schema": [
+        {
+          "name": "report",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "reports",
+            "cascadeDelete": true
+          }
+        },
+        {
+          "name": "department",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "departments",
+            "cascadeDelete": false
+          }
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["pending", "delivered", "acknowledged", "processed"]
+          }
+        },
+        {
+          "name": "submitted_at",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "response",
+          "type": "json"
+        },
+        {
+          "name": "response_at",
+          "type": "date"
+        },
+        {
+          "name": "metadata",
+          "type": "json"
+        }
+      ]
+    }
+  ]
+}

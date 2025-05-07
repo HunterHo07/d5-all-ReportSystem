@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Reporting System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@2.0.0/modern-normalize.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@lottiefiles/lottie-player@2.0.2/dist/lottie-player.min.js"></script>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --accent: #f97316;
+            --background: #f8fafc;
+            --foreground: #0f172a;
+            --card: #ffffff;
+            --card-foreground: #1e293b;
+            --border: #e2e8f0;
+            --input: #e2e8f0;
+            --ring: #4f46e5;
+            --radius: 0.5rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: var(--card);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--foreground);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .hero {
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #64748b;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .features {
+            padding: 6rem 0;
+            background: var(--card);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.25rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .scoring-system {
+            padding: 6rem 0;
+            background: linear-gradient(to right, #f8fafc, #f1f5f9);
+        }
+
+        .scoring-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .score-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .score-letter {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .score-range {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .cta {
+            padding: 6rem 0;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: none;
+            font-size: 1.125rem;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        footer {
+            background: var(--foreground);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 4rem;
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 0.875rem;
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+        }
+
+        .slide-up {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        .slide-right {
+            transform: translateX(-30px);
+            opacity: 0;
+        }
+
+        .slide-left {
+            transform: translateX(30px);
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .scoring-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">PR</div>
+                    <span>ProjectReport</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#scoring">Scoring System</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <button class="btn btn-primary">Get Started</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text slide-right">
+                    <h1>Streamline Your Project Reporting</h1>
+                    <p>Automatically submit comprehensive project reports to official departments with standardized evaluation metrics.</p>
+                    <button class="btn btn-primary">Start Reporting</button>
+                </div>
+                <div class="hero-image slide-left">
+                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent" speed="1" style="width: 100%; height: 400px;" loop autoplay></lottie-player>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Powerful Features</h2>
+                <p>Everything you need to create, evaluate, and submit professional project reports.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">1</div>
+                    <h3>Automated Submission</h3>
+                    <p>One-click submission to official departments with validation and confirmation.</p>
+                </div>
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">2</div>
+                    <h3>Standardized Evaluation</h3>
+                    <p>Consistent scoring system across all projects for fair and objective assessment.</p>
+                </div>
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">3</div>
+                    <h3>Interactive Interface</h3>
+                    <p>Visually appealing UI with advanced animations and intuitive controls.</p>
+                </div>
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">4</div>
+                    <h3>Real-time Validation</h3>
+                    <p>Immediate feedback on report completeness and quality before submission.</p>
+                </div>
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">5</div>
+                    <h3>Comprehensive Analytics</h3>
+                    <p>Insights into project health and team performance with visual reports.</p>
+                </div>
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">6</div>
+                    <h3>Integration Capabilities</h3>
+                    <p>Connects seamlessly with your existing development tools and workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="scoring-system" id="scoring">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Standardized Scoring System</h2>
+                <p>Evaluate projects consistently across six critical dimensions.</p>
+            </div>
+            <div class="scoring-grid">
+                <div class="score-card slide-up">
+                    <div class="score-letter">S</div>
+                    <div class="score-range">Security (0-10)</div>
+                    <p>Evaluate injection protection, authentication, authorization, data protection, and API security.</p>
+                </div>
+                <div class="score-card slide-up">
+                    <div class="score-letter">P</div>
+                    <div class="score-range">Performance (0-10)</div>
+                    <p>Measure response time, resource usage, optimization level, and caching efficiency.</p>
+                </div>
+                <div class="score-card slide-up">
+                    <div class="score-letter">M</div>
+                    <div class="score-range">Memory (0-10)</div>
+                    <p>Assess RAM per user, leak prevention, GC efficiency, and heap management.</p>
+                </div>
+                <div class="score-card slide-up">
+                    <div class="score-letter">T</div>
+                    <div class="score-range">Testing (0-10)</div>
+                    <p>Evaluate coverage types, edge cases, security tests, and load testing.</p>
+                </div>
+                <div class="score-card slide-up">
+                    <div class="score-letter">E</div>
+                    <div class="score-range">Error Handling (0-10)</div>
+                    <p>Rate input validation, recovery steps, user feedback, and system stability.</p>
+                </div>
+                <div class="score-card slide-up">
+                    <div class="score-letter">L</div>
+                    <div class="score-range">Load Impact (0-10)</div>
+                    <p>Measure users per second, CPU per request, RAM per user, and DB connections.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Streamline Your Reporting?</h2>
+            <p>Join thousands of teams who have simplified their project reporting process with our system.</p>
+            <button class="btn btn-secondary">Get Started Today</button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <div class="logo-icon">PR</div>
+                        <span>ProjectReport</span>
+                    </div>
+                    <p>Streamlining project reporting with standardized evaluation metrics and automated submission.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 ProjectReport. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // GSAP animations
+            gsap.to('.slide-right', {
+                x: 0,
+                opacity: 1,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.slide-left', {
+                x: 0,
+                opacity: 1,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.2
+            });
+
+            gsap.to('.fade-in', {
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.fade-in',
+                    start: 'top 80%'
+                }
+            });
+
+            // Staggered animations for feature cards
+            gsap.to('.slide-up', {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.features-grid',
+                    start: 'top 80%'
+                }
+            });
+
+            // Staggered animations for score cards
+            gsap.to('.scoring-grid .slide-up', {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.scoring-grid',
+                    start: 'top 80%'
+                }
+            });
+
+            // Surprise me element - random floating particles
+            const hero = document.querySelector('.hero');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = `${Math.random() * 10 + 5}px`;
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(79, 70, 229, ${Math.random() * 0.3 + 0.1})`;
+                particle.style.borderRadius = '50%';
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.pointerEvents = 'none';
+                hero.appendChild(particle);
+
+                gsap.to(particle, {
+                    y: `${Math.random() * 100 - 50}px`,
+                    x: `${Math.random() * 100 - 50}px`,
+                    duration: Math.random() * 5 + 5,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
